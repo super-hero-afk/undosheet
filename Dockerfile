@@ -20,5 +20,7 @@ RUN mvn package -DskipTests -B
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=backend-build /app/target/*.jar app.jar
-EXPOSE ${PORT:8080}
+ARG PORT=8080
+ENV PORT=${PORT}
+EXPOSE ${PORT}
 ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=production"]
