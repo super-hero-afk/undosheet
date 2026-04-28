@@ -20,5 +20,5 @@ RUN mvn package -DskipTests -B
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=backend-build /app/target/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=production"]
+# Railway 通过 PORT 环境变量指定端口，Spring Boot 会自动读取
+ENTRYPOINT ["sh", "-c", "java -jar app.jar --spring.profiles.active=production --server.port=${PORT:-8080}"]
